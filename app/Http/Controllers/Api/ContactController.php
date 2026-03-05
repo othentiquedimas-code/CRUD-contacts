@@ -3,47 +3,46 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    // afficher tous les contacts
     public function index()
     {
-        //
+        return Contact::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // ajouter un contact
     public function store(Request $request)
     {
-        //
+        $contact = Contact::create($request->all());
+
+        return response()->json($contact, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // afficher un contact
+    public function show($id)
     {
-        //
+        return Contact::findOrFail($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // modifier un contact
+    public function update(Request $request, $id)
     {
-        //
+        $contact = Contact::findOrFail($id);
+        $contact->update($request->all());
+
+        return response()->json($contact, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // supprimer un contact
+    public function destroy($id)
     {
-        //
+        Contact::destroy($id);
+
+        return response()->json(null, 204);
     }
 }
